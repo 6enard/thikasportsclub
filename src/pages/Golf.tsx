@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import { CLUB_MEDIA } from '@/lib/media';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import { Field, FormSuccess, FormError, SubmitButton, useEnquiryForm, validateEmail, ErrorText } from '@/components/forms';
@@ -30,7 +31,15 @@ export default function Golf() {
       <section className="py-24">
         <div className="container-x grid items-center gap-14 lg:grid-cols-2">
           <FadeIn>
-            <div className="aspect-[4/3] w-full bg-gradient-to-br from-forest-400 via-forest-600 to-forest-800 shadow-xl" />
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-forest-800 shadow-xl">
+              <img
+                src={CLUB_MEDIA.course}
+                alt="Thika Sports Club golf course"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
+            </div>
           </FadeIn>
           <div>
             <SectionHeading label="The Course" title="A Historic 18-Hole Course" align="left" />

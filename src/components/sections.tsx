@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { ChevronDown, ArrowRight, Flag, MapPin, CalendarDays } from 'lucide-react';
 import { FadeIn, SectionHeading, useSiteContent } from './Shared';
 import { TIMELINE } from '@/lib/types';
+import { CLUB_MEDIA } from '@/lib/media';
 
 export function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -126,7 +127,15 @@ export function Welcome() {
       <div className="container-x grid items-center gap-14 lg:grid-cols-2">
         <FadeIn>
           <div className="relative">
-            <div className="aspect-[4/3] w-full bg-gradient-to-br from-forest-500 via-forest-600 to-forest-800 shadow-2xl" />
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-forest-800 shadow-2xl">
+              <img
+                src={CLUB_MEDIA.heritage}
+                alt="Historic grounds at Thika Sports Club"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
+            </div>
             <div className="absolute -bottom-5 -right-5 hidden h-40 w-40 border-4 border-gold-400 sm:block" />
             <div className="absolute -top-5 -left-5 hidden h-24 w-24 border-4 border-forest-600/30 sm:block" />
           </div>

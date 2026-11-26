@@ -5,15 +5,7 @@ import { supabase } from '@/lib/supabase';
 import type { Facility } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
-
-const HUES = [
-  'from-forest-500 to-forest-700',
-  'from-forest-400 to-forest-600',
-  'from-gold-400 to-forest-600',
-  'from-forest-600 to-forest-800',
-  'from-forest-500 to-forest-800',
-  'from-gold-300 to-forest-600',
-];
+import { CLUB_MEDIA, FACILITY_MEDIA } from '@/lib/media';
 
 export default function Facilities() {
   const [facilities, setFacilities] = useState<Facility[]>([]);
@@ -41,14 +33,14 @@ export default function Facilities() {
               }`}
             >
               <FadeIn>
-                <div
-                  className={`aspect-[4/3] w-full bg-gradient-to-br ${
-                    HUES[i % HUES.length]
-                  } shadow-xl`}
-                >
-                  <div className="flex h-full items-center justify-center">
-                    <span className="font-display text-4xl text-white/25">{f.name}</span>
-                  </div>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-forest-800 shadow-xl">
+                  <img
+                    src={f.image_url || FACILITY_MEDIA[f.slug] || CLUB_MEDIA.heritage}
+                    alt={`${f.name} at Thika Sports Club`}
+                    className="h-full w-full object-cover transition duration-700 hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
                 </div>
               </FadeIn>
               <div>

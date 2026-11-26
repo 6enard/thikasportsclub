@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, ImageOff } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import type { GalleryImage } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn } from '@/components/Shared';
+import { CLUB_MEDIA } from '@/lib/media';
 
 export default function Gallery() {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -88,16 +89,15 @@ export default function Gallery() {
                     className="group relative block w-full overflow-hidden text-left break-inside-avoid"
                   >
                     <div
-                      className={`flex w-full items-center justify-center bg-gradient-to-br ${
-                        [
-                          'from-forest-400 to-forest-700',
-                          'from-gold-300 to-forest-600',
-                          'from-forest-500 to-forest-800',
-                          'from-forest-300 to-forest-600',
-                        ][i % 4]
-                      } ${i % 5 === 0 ? 'aspect-[3/4]' : i % 3 === 0 ? 'aspect-square' : 'aspect-[4/3]'}`}
+                      className={`relative w-full overflow-hidden bg-forest-800 ${i % 5 === 0 ? 'aspect-[3/4]' : i % 3 === 0 ? 'aspect-square' : 'aspect-[4/3]'}`}
                     >
-                      <ImageOff size={26} className="text-white/30" />
+                      <img
+                        src={img.image_url || CLUB_MEDIA.heritage}
+                        alt={img.title || 'Thika Sports Club photograph'}
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-forest-900/10 transition group-hover:bg-transparent" />
                     </div>
                     <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-900/80 to-transparent p-4 pt-10 text-sm font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
                       {img.title}

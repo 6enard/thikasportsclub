@@ -1,17 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Quote } from 'lucide-react';
+import { ArrowRight, CalendarDays, Quote } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
-import type { Facility, Testimonial } from '@/lib/types';
+import type { ClubEvent, Facility, Testimonial } from '@/lib/types';
+import { CLUB_MEDIA, FACILITY_MEDIA } from '@/lib/media';
 import { FadeIn, SectionHeading } from './Shared';
-import { NoEventsNotice } from './sections';
-
-const FACILITY_HUES = [
-  'from-forest-500 to-forest-700',
-  'from-forest-400 to-forest-600',
-  'from-gold-400 to-forest-600',
-  'from-forest-600 to-forest-800',
-];
 
 export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
   const [facilities, setFacilities] = useState<Facility[]>([]);
@@ -37,12 +30,15 @@ export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
             to={`/facilities#${f.slug}`}
             className="group block overflow-hidden border border-charcoal/10 bg-white transition-shadow hover:shadow-xl"
           >
-            <div
-              className={`relative aspect-[16/7] bg-gradient-to-br ${
-                FACILITY_HUES[i % FACILITY_HUES.length]
-              }`}
-            >
-              <span className="absolute inset-0 flex items-center justify-center font-display text-3xl text-white/25">
+            <div className="relative aspect-[16/7] overflow-hidden bg-forest-800">
+              <img
+                src={f.image_url || FACILITY_MEDIA[f.slug] || CLUB_MEDIA.heritage}
+                alt={`${f.name} at Thika Sports Club`}
+                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent" />
+              <span className="absolute bottom-5 left-6 font-display text-2xl text-white">
                 {f.name}
               </span>
             </div>
@@ -70,7 +66,15 @@ export function GolfFeature() {
       <div className="container-x grid items-center gap-14 lg:grid-cols-2">
         <FadeIn>
           <div className="relative">
-            <div className="aspect-[4/3] w-full bg-gradient-to-br from-forest-400 via-forest-600 to-forest-800 shadow-2xl" />
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-forest-800 shadow-2xl">
+              <img
+                src={CLUB_MEDIA.course}
+                alt="The golf course at Thika Sports Club"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent" />
+            </div>
             <div className="absolute bottom-6 left-6 right-6 border-l-2 border-gold-400 bg-forest-900/80 p-5 backdrop-blur">
               <p className="font-display text-lg text-white">18 Holes · Est. 1932</p>
               <p className="mt-1 text-xs uppercase tracking-[0.2em] text-gold-300">
@@ -150,12 +154,61 @@ export function MembershipPromo() {
 }
 
 export function EventsPreview() {
+  const [events, setEvents] = useState<ClubEvent[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from('events')
+      .select('*')
+      .eq('is_published', true)
+      .order('event_date', { ascending: true })
+      .limit(3)
+      .then(({ data }) => setEvents((data as ClubEvent[]) ?? []));
+  }, []);
+
   return (
-    <section className="py-24 lg:py-32">
+    <section className="bg-white py-24 lg:py-32">
       <div className="container-x">
         <SectionHeading label="What's On" title="Club Events" />
-        <FadeIn delay={0.15} className="mt-14">
-          <NoEventsNotice />
+        {events.length > 0 && (
+          <div className="mt-14 grid gap-8 md:grid-cols-3">
+            {events.map((event, i) => (
+              <FadeIn key={event.id} delay={i * 0.1}>
+                <article className="group h-full overflow-hidden border border-charcoal/10 bg-ivory transition-shadow hover:shadow-xl">
+                  <div className="relative aspect-[16/9] overflow-hidden bg-forest-800">
+                    <img
+                      src={event.image_url || CLUB_MEDIA.heritage}
+                      alt={event.title}
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <span className="absolute left-4 top-4 bg-gold-400 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-forest-900">
+                      {event.category}
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <p className="flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-gold-600">
+                      <CalendarDays size={14} />
+                      {event.event_date
+                        ? new Date(event.event_date).toLocaleDateString('en-KE', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })
+                        : 'Date to be confirmed'}
+                    </p>
+                    <h3 className="mt-3 font-display text-xl text-forest-800">{event.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{event.description}</p>
+                  </div>
+                </article>
+              </FadeIn>
+            ))}
+          </div>
+        )}
+        <FadeIn delay={0.2} className="mt-10 text-center">
+          <Link to="/events" className="btn-outline-dark">
+            View All Events <ArrowRight size={16} />
+          </Link>
         </FadeIn>
       </div>
     </section>

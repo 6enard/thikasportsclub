@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { CLUB_MEDIA } from '@/lib/media';
 
 const LINKS = [
   { to: '/', label: 'Home' },
@@ -16,15 +17,11 @@ const LINKS = [
 export function Wordmark({ light = false }: { light?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-3">
-      <span
-        className={`flex h-10 w-10 items-center justify-center border font-display text-xl ${
-          light
-            ? 'border-gold-400/70 text-gold-400'
-            : 'border-forest-600/40 text-forest-600'
-        }`}
-      >
-        T
-      </span>
+      <img
+        src={CLUB_MEDIA.logo}
+        alt="Thika Sports Club crest"
+        className="h-12 w-12 object-contain"
+      />
       <span className="leading-tight">
         <span
           className={`block font-display text-base font-semibold tracking-wide ${

@@ -5,6 +5,7 @@ import type { ClubEvent } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import { NoEventsNotice } from '@/components/sections';
+import { CLUB_MEDIA } from '@/lib/media';
 import { Field, FormSuccess, FormError, SubmitButton, useEnquiryForm, validateEmail } from '@/components/forms';
 
 export default function Events() {
@@ -54,7 +55,15 @@ export default function Events() {
                 {visible.map((ev, i) => (
                   <FadeIn key={ev.id} delay={(i % 3) * 0.1}>
                     <article className="group h-full border border-charcoal/10 bg-white transition-shadow hover:shadow-xl">
-                      <div className="aspect-[16/9] bg-gradient-to-br from-forest-500 to-forest-800" />
+                      <div className="relative aspect-[16/9] overflow-hidden bg-forest-800">
+                        <img
+                          src={ev.image_url || CLUB_MEDIA.heritage}
+                          alt={ev.title}
+                          className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
+                      </div>
                       <div className="p-7">
                         <p className="text-xs uppercase tracking-[0.2em] text-gold-600">{ev.category}</p>
                         <h3 className="mt-3 font-display text-xl text-forest-800">{ev.title}</h3>

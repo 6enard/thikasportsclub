@@ -2,6 +2,7 @@ import { Timeline, Stats } from '@/components/sections';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import PageHero from '@/components/PageHero';
 import { Target, HeartHandshake, Trees, Trophy } from 'lucide-react';
+import { CLUB_MEDIA } from '@/lib/media';
 
 const VALUES = [
   {
@@ -58,8 +59,16 @@ export default function About() {
           </div>
           <FadeIn delay={0.1}>
             <div className="relative">
-              <div className="aspect-[4/5] w-full bg-gradient-to-br from-forest-500 via-forest-700 to-forest-800 shadow-2xl" />
+              <div className="aspect-[4/5] w-full overflow-hidden bg-forest-800 shadow-2xl">
+                <img
+                  src={CLUB_MEDIA.heritage}
+                  alt="Historic Thika Sports Club grounds"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
               <div className="absolute bottom-6 left-6 right-6 border-l-2 border-gold-400 bg-forest-900/80 p-5 backdrop-blur">
+                <img src={CLUB_MEDIA.logo} alt="" className="mb-4 h-16 w-16 object-contain" />
                 <p className="font-display text-2xl text-white">Est. 1922</p>
                 <p className="mt-1 text-xs uppercase tracking-[0.2em] text-gold-300">
                   Thika, Kiambu County
