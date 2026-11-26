@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import type { ClubEvent, Facility, Testimonial } from '@/lib/types';
 import { CLUB_MEDIA, FACILITY_MEDIA, handleImageError } from '@/lib/media';
 import { FALLBACK_FACILITIES } from '@/lib/facilities';
+import { FALLBACK_TESTIMONIALS } from '@/lib/testimonials';
 import { FadeIn, SectionHeading } from './Shared';
 
 export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
@@ -226,14 +227,16 @@ export function EventsPreview() {
 }
 
 export function TestimonialsSection() {
-  const [items, setItems] = useState<Testimonial[]>([]);
+  const [items, setItems] = useState<Testimonial[]>(FALLBACK_TESTIMONIALS);
 
   useEffect(() => {
     supabase
       .from('testimonials')
       .select('*')
       .eq('is_published', true)
-      .then(({ data }) => setItems((data as Testimonial[]) ?? []));
+      .then(({ data, error }) => {
+        if (!error && data?.length) setItems(data as Testimonial[]);
+      });
   }, []);
 
   return (
