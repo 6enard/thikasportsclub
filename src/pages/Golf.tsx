@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
-import { CLUB_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, handleImageError } from '@/lib/media';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import { Field, FormSuccess, FormError, SubmitButton, useEnquiryForm, validateEmail, ErrorText } from '@/components/forms';
@@ -37,6 +37,7 @@ export default function Golf() {
                 alt="Thika Sports Club golf course"
                 className="h-full w-full object-cover"
                 loading="lazy"
+                onError={handleImageError}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
             </div>

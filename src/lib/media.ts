@@ -1,3 +1,5 @@
+import type { SyntheticEvent } from 'react';
+
 export const CLUB_MEDIA = {
   logo: '/images/Thika_Sports_Club_Golf_Crest_logo.png',
   course:
@@ -5,6 +7,17 @@ export const CLUB_MEDIA = {
   heritage:
     'https://thikasportsclub.co.ke/wp-content/uploads/2024/02/img219-250x300-1.jpg',
 } as const;
+
+export function handleImageError(event: SyntheticEvent<HTMLImageElement>) {
+  const image = event.currentTarget;
+  if (image.dataset.fallbackApplied === 'true') return;
+  image.dataset.fallbackApplied = 'true';
+  image.onerror = null;
+  image.src = CLUB_MEDIA.logo;
+  image.alt = 'Thika Sports Club crest';
+  image.classList.remove('object-cover');
+  image.classList.add('object-contain', 'p-10');
+}
 
 export const FACILITY_MEDIA: Record<string, string> = {
   golf: CLUB_MEDIA.course,

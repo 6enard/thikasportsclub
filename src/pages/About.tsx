@@ -2,7 +2,7 @@ import { Timeline, Stats } from '@/components/sections';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import PageHero from '@/components/PageHero';
 import { Target, HeartHandshake, Trees, Trophy } from 'lucide-react';
-import { CLUB_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, handleImageError } from '@/lib/media';
 
 const VALUES = [
   {
@@ -65,6 +65,7 @@ export default function About() {
                   alt="Historic Thika Sports Club grounds"
                   className="h-full w-full object-cover"
                   loading="lazy"
+                  onError={handleImageError}
                 />
               </div>
               <div className="absolute bottom-6 left-6 right-6 border-l-2 border-gold-400 bg-forest-900/80 p-5 backdrop-blur">

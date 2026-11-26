@@ -4,7 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { ChevronDown, ArrowRight, Flag, MapPin, CalendarDays } from 'lucide-react';
 import { FadeIn, SectionHeading, useSiteContent } from './Shared';
 import { TIMELINE } from '@/lib/types';
-import { CLUB_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, handleImageError } from '@/lib/media';
 
 export function CountUp({ target, suffix = '' }: { target: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -133,6 +133,7 @@ export function Welcome() {
                 alt="Historic grounds at Thika Sports Club"
                 className="h-full w-full object-cover"
                 loading="lazy"
+                onError={handleImageError}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
             </div>

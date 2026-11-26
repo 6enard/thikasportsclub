@@ -5,7 +5,7 @@ import type { ClubEvent } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
 import { NoEventsNotice } from '@/components/sections';
-import { CLUB_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, handleImageError } from '@/lib/media';
 import { Field, FormSuccess, FormError, SubmitButton, useEnquiryForm, validateEmail } from '@/components/forms';
 
 export default function Events() {
@@ -61,6 +61,7 @@ export default function Events() {
                           alt={ev.title}
                           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                           loading="lazy"
+                          onError={handleImageError}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
                       </div>

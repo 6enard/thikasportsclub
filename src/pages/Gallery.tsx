@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import type { GalleryImage } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn } from '@/components/Shared';
-import { CLUB_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, handleImageError } from '@/lib/media';
 
 export default function Gallery() {
   const [images, setImages] = useState<GalleryImage[]>([]);
@@ -96,6 +96,7 @@ export default function Gallery() {
                         alt={img.title || 'Thika Sports Club photograph'}
                         className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                         loading="lazy"
+                        onError={handleImageError}
                       />
                       <div className="absolute inset-0 bg-forest-900/10 transition group-hover:bg-transparent" />
                     </div>
@@ -150,6 +151,7 @@ export default function Gallery() {
                     alt={visible[active].title || 'Club photograph'}
                     className="h-full w-full object-contain"
                     loading="lazy"
+                    onError={handleImageError}
                   />
                 ) : (
                   <span className="font-display text-2xl text-white/40">

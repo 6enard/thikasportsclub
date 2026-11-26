@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, CalendarDays, Quote } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import type { ClubEvent, Facility, Testimonial } from '@/lib/types';
-import { CLUB_MEDIA, FACILITY_MEDIA } from '@/lib/media';
+import { CLUB_MEDIA, FACILITY_MEDIA, handleImageError } from '@/lib/media';
+import { FALLBACK_FACILITIES } from '@/lib/facilities';
 import { FadeIn, SectionHeading } from './Shared';
 
 export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
-  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [facilities, setFacilities] = useState<Facility[]>(FALLBACK_FACILITIES);
 
   useEffect(() => {
     supabase
@@ -15,7 +16,13 @@ export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
       .select('*')
       .eq('is_active', true)
       .order('sort_order')
-      .then(({ data }) => setFacilities((data as Facility[]) ?? []));
+      .then(({ data, error }) => {
+        if (error || !data?.length) {
+          setFacilities(FALLBACK_FACILITIES);
+          return;
+        }
+        setFacilities(data as Facility[]);
+      });
   }, []);
 
   return (
@@ -36,6 +43,7 @@ export function FacilitiesGrid({ compact = false }: { compact?: boolean }) {
                 alt={`${f.name} at Thika Sports Club`}
                 className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 loading="lazy"
+                onError={handleImageError}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent" />
               <span className="absolute bottom-5 left-6 font-display text-2xl text-white">
@@ -72,6 +80,7 @@ export function GolfFeature() {
                 alt="The golf course at Thika Sports Club"
                 className="h-full w-full object-cover"
                 loading="lazy"
+                onError={handleImageError}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-forest-900/70 via-transparent to-transparent" />
             </div>
@@ -181,6 +190,7 @@ export function EventsPreview() {
                       alt={event.title}
                       className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                       loading="lazy"
+                      onError={handleImageError}
                     />
                     <span className="absolute left-4 top-4 bg-gold-400 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-forest-900">
                       {event.category}

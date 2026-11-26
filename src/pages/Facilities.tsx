@@ -5,10 +5,11 @@ import { supabase } from '@/lib/supabase';
 import type { Facility } from '@/lib/types';
 import PageHero from '@/components/PageHero';
 import { FadeIn, SectionHeading } from '@/components/Shared';
-import { CLUB_MEDIA, FACILITY_MEDIA } from '@/lib/media';
+import { handleImageError, CLUB_MEDIA, FACILITY_MEDIA } from '@/lib/media';
+import { FALLBACK_FACILITIES } from '@/lib/facilities';
 
 export default function Facilities() {
-  const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [facilities, setFacilities] = useState<Facility[]>(FALLBACK_FACILITIES);
 
   useEffect(() => {
     supabase
@@ -16,7 +17,13 @@ export default function Facilities() {
       .select('*')
       .eq('is_active', true)
       .order('sort_order')
-      .then(({ data }) => setFacilities((data as Facility[]) ?? []));
+      .then(({ data, error }) => {
+        if (error || !data?.length) {
+          setFacilities(FALLBACK_FACILITIES);
+          return;
+        }
+        setFacilities(data as Facility[]);
+      });
   }, []);
 
   return (
@@ -39,6 +46,7 @@ export default function Facilities() {
                     alt={`${f.name} at Thika Sports Club`}
                     className="h-full w-full object-cover transition duration-700 hover:scale-105"
                     loading="lazy"
+                    onError={handleImageError}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-forest-900/60 via-transparent to-transparent" />
                 </div>
