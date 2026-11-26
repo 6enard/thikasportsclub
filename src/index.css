@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-ivory text-charcoal font-sans antialiased;
+}
+
+h1, h2, h3, h4 {
+  @apply font-display;
+}
+
+.section-label {
+  @apply text-gold-400 text-xs tracking-[0.3em] uppercase font-medium;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 bg-forest-600 hover:bg-forest-700 text-white font-medium px-7 py-3.5 transition-colors duration-200 tracking-wide;
+}
+
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 bg-gold-400 hover:bg-gold-500 text-forest-800 font-semibold px-7 py-3.5 transition-colors duration-200 tracking-wide;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 border border-white/60 hover:border-gold-400 hover:text-gold-400 text-white font-medium px-7 py-3.5 transition-colors duration-200 tracking-wide;
+}
+
+.btn-outline-dark {
+  @apply inline-flex items-center justify-center gap-2 border border-forest-600/40 hover:border-forest-600 text-forest-600 hover:bg-forest-600 hover:text-white font-medium px-7 py-3.5 transition-colors duration-200 tracking-wide;
+}
+
+.input-field {
+  @apply w-full bg-white border border-charcoal/15 focus:border-forest-600 focus:ring-1 focus:ring-forest-600 outline-none px-4 py-3 text-sm placeholder:text-charcoal/40 transition-colors;
+}
+
+.container-x {
+  @apply mx-auto max-w-7xl px-5 sm:px-8 lg:px-12;
+}
+
+::selection {
+  @apply bg-gold-200 text-forest-800;
+}
